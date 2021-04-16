@@ -2,19 +2,31 @@
     
     <section class="post-list">
 
-      <PostsPreview id="1" :is-admin = "isAdmin" thumbnail="https://as2.ftcdn.net/jpg/02/41/67/95/500_F_241679501_hS4TmhOSoVymbnZ3HdWpjb8qMWVBLyPs.jpg" title="Hello there!" previewText="This my first post!"/>
-      <PostsPreview id="2" :is-admin = "isAdmin" thumbnail="https://as2.ftcdn.net/jpg/02/41/67/95/500_F_241679501_hS4TmhOSoVymbnZ3HdWpjb8qMWVBLyPs.jpg" title="Hello there!" previewText="This my first post!"/>
+      <PostsPreview 
+        v-for="post in posts"
+        :key="post.id"
+        :id="post.id" 
+        :is-admin = "isAdmin" 
+        :thumbnail="post.thumbnail" 
+        :title="post.title" 
+        :previewText="post.previewText"/>
+      
     </section>
 
 </template>
 
 <script>
 export default {
-    
+
     props: {
         isAdmin: {
             type: Boolean,
             default: false,
+        },
+
+        posts: {
+          type: Array,
+          required: true,
         }
     }
 

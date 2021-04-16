@@ -1,7 +1,7 @@
 <template>
-    <div class="posts-page">
+    <div class = "posts-page">
 
-font-family: 'Noto Sans KR', sans-serif;
+        <PostsList/>
 
     </div>
 </template>
@@ -13,7 +13,5 @@ font-family: 'Noto Sans KR', sans-serif;
     justify-content: center;
     align-items: center;
 }
-
-
 
 </style>

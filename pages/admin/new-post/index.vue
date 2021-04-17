@@ -14,11 +14,16 @@
   export default {
 
     methods: {
-      submitData(postData) { 
-        axios.post('http://localhost:8888/api/blog/post', {...postData, "updateDate": new Date()}).then((result) => {
-          console.log(result);
+      submitData(postData) {
+
+        this.$store.dispatch('addPost', postData).then(() => {
+          this.$router.push('/admin');
         })
-        .catch(e => console.log(e));
+
+        // axios.post('http://localhost:8888/api/blog/post', {...postData, "updateDate": new Date()}).then((result) => {
+        //   console.log(result);
+        // })
+        // .catch(e => console.log(e));
       }
     },
 

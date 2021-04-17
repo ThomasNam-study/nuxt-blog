@@ -10,6 +10,15 @@ const createStore = () => {
 
       setPosts(state, posts) {
         state.loadedPosts = posts;
+      },
+
+      addPost(state, post) {
+        state.loadedPosts.push(post);
+      },
+      editPost(state, editedPost) {
+        const postIndex = state.loadedPosts.findIndex(post => post.id === editedPost.id);
+
+        state.loadedPosts[postIndex] = editedPost;
       }
 
     },
@@ -59,6 +68,29 @@ const createStore = () => {
 
       setPosts(vuexContext, posts) {
         vuexContext.commit('setPosts', posts);
+      },
+
+      addPost(vuexContext, post) {
+
+        const createdPost = {...post, "updateDate": new Date()};
+
+        return axios.post('http://localhost:8888/api/blog/post', createdPost).then((result) => {
+          vuexContext.commit("addPost", result.data);          
+        })
+        .catch(e => console.log(e));
+
+      },
+
+      editPost(vuexContext, editedPost) {
+        
+        return axios.put('http://localhost:8888/api/blog/post/' + editedPost.id, {
+            ...editedPost,
+            "updateDate": new Date()
+          }).then((result) => {
+            vuexContext.commit("editPost", result.data);
+          })
+          .catch(e => console.log(e));
+
       }
     },
     getters: {

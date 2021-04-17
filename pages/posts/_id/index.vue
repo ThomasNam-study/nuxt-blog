@@ -19,34 +19,42 @@
 </template>
 
 <script>
+import axios from 'axios';
+
   export default {
 
     asyncData(context) {
 
-      console.log("Async Data Execute!!");
+      return axios.get("http://localhost:8888/api/blog/post/" + context.params.id).then((res => {
+          return {
+            loadedPost: res.data
+          }
+        })).catch(e => context.error(e));
 
-      return new Promise((resolve, reject) => {
+      // console.log("Async Data Execute!!");
 
-        setTimeout(() => {
-          resolve({
-            'loadedPost': {
-              id: '1',
-              title: "First Post (ID : " + context.params.id + ")",
-              previewText: "previewText",
-              author: 'RED',
-              updatedDate: new Date(),
-              content: 'Content~~~~~~~',
-              thumbnail: "https://as2.ftcdn.net/jpg/02/41/67/95/500_F_241679501_hS4TmhOSoVymbnZ3HdWpjb8qMWVBLyPs.jpg"
-            }
-          });
-        }, 1000);
+      // return new Promise((resolve, reject) => {
+
+      //   setTimeout(() => {
+      //     resolve({
+      //       'loadedPost': {
+      //         id: '1',
+      //         title: "First Post (ID : " + context.params.id + ")",
+      //         previewText: "previewText",
+      //         author: 'RED',
+      //         updatedDate: new Date(),
+      //         content: 'Content~~~~~~~',
+      //         thumbnail: "https://as2.ftcdn.net/jpg/02/41/67/95/500_F_241679501_hS4TmhOSoVymbnZ3HdWpjb8qMWVBLyPs.jpg"
+      //       }
+      //     });
+      //   }, 1000);
 
 
-      }).then(data => {
-        return data
-      }).catch(e => {
-        context.error(e);
-      });
+      // }).then(data => {
+      //   return data
+      // }).catch(e => {
+      //   context.error(e);
+      // });
 
 
 

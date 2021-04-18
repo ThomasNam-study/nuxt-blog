@@ -19,13 +19,12 @@
 </template>
 
 <script>
-import axios from 'axios';
 
   export default {
 
     asyncData(context) {
 
-      return axios.get("http://localhost:8888/api/blog/post/" + context.params.id).then((res => {
+      return context.app.$axios.get("http://localhost:8888/api/blog/post/" + context.params.id).then((res => {
           return {
             loadedPost: res.data
           }
@@ -58,8 +57,11 @@ import axios from 'axios';
 
 
 
-    }
+    },
 
+    head: {
+      title: 'A Blog Post'
+    }
 
   }
 

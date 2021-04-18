@@ -7,13 +7,13 @@
 </template>
 
 <script>
-  import axios from 'axios';
+  // import axios from 'axios';
 
   export default {
 
     asyncData(context) {
 
-      return axios.get("http://localhost:8888/api/blog/post/" + context.params.postId).then((res => {
+      return context.app.$axios.get(process.env.baseUrl + "/api/blog/post/" + context.params.postId).then((res => {
         return {
           loadedPost: res.data
         }

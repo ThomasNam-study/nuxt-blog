@@ -19,10 +19,13 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    '~assets/styles/main.css'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~plugins/date-filter.js'
+
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -36,9 +39,32 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/bootstrap
     'bootstrap-vue/nuxt',
+    '@nuxtjs/axios'
   ],
+
+  axios: {
+    Credential: false
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+  },
+
+  env: {
+    baseUrl: process.env.BASE_URL || 'http://localhost:8888'
+  },
+
+  transition: {
+    name: 'fade',
+    mode: 'out-in'
   }
+/*  router: {
+    extendRoutes(routes, resolve) {
+      routes.push({
+        path: '*',
+        components: resolve(__dirname, 'pages/index.vue')
+      });
+    }
+  }*/
+  // rootDir: '/my-app'
 }

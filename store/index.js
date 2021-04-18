@@ -1,5 +1,4 @@
 import Vuex from 'vuex';
-import axios from 'axios';
 
 const createStore = () => {
   return new Vuex.Store({
@@ -25,7 +24,7 @@ const createStore = () => {
     actions: {
 
       nuxtServerInit(vuexContext, context) {
-        return axios.get("http://localhost:8888/api/blog/posts").then((res => {
+        return context.app.$axios.get("http://localhost:8888/api/blog/posts").then((res => {
           vuexContext.commit("setPosts", res.data);
         })).catch(e => context.error(e));
 
@@ -74,7 +73,7 @@ const createStore = () => {
 
         const createdPost = {...post, "updateDate": new Date()};
 
-        return axios.post('http://localhost:8888/api/blog/post', createdPost).then((result) => {
+        return context.app.$axios.post(process.env.baseUrl + '/api/blog/post', createdPost).then((result) => {
           vuexContext.commit("addPost", result.data);          
         })
         .catch(e => console.log(e));
@@ -83,7 +82,7 @@ const createStore = () => {
 
       editPost(vuexContext, editedPost) {
         
-        return axios.put('http://localhost:8888/api/blog/post/' + editedPost.id, {
+        return context.app.$axios.put(process.env.baseUrl + '/api/blog/post/' + editedPost.id, {
             ...editedPost,
             "updateDate": new Date()
           }).then((result) => {

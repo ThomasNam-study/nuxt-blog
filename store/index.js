@@ -24,6 +24,7 @@ const createStore = () => {
     actions: {
 
       nuxtServerInit(vuexContext, context) {
+        // console.log(context);
         return context.app.$axios.get("http://localhost:8888/api/blog/posts").then((res => {
           vuexContext.commit("setPosts", res.data);
         })).catch(e => context.error(e));
@@ -74,14 +75,14 @@ const createStore = () => {
         const createdPost = {...post, "updateDate": new Date()};
 
         return context.app.$axios.post(process.env.baseUrl + '/api/blog/post', createdPost).then((result) => {
-          vuexContext.commit("addPost", result.data);          
+          vuexContext.commit("addPost", result.data);
         })
         .catch(e => console.log(e));
 
       },
 
       editPost(vuexContext, editedPost) {
-        
+
         return context.app.$axios.put(process.env.baseUrl + '/api/blog/post/' + editedPost.id, {
             ...editedPost,
             "updateDate": new Date()

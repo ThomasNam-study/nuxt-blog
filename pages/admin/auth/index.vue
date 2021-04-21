@@ -1,9 +1,10 @@
 <template>
   <div class="admin-auth-page">
     <div class="auth-container">
-      <form>
-        <UiAppControlInput type="email">E-Mail Address</UiAppControlInput>
-        <UiAppControlInput type="password">Password</UiAppControlInput>
+      <form @submit.prevent="onSubmitData">
+        <UiAppControlInput type="email" v-model="email">E-Mail Address</UiAppControlInput>
+        <UiAppControlInput type="text" v-if="!isLogin" v-model="name">Name</UiAppControlInput>
+        <UiAppControlInput type="password" v-model="passwd">Password</UiAppControlInput>
         <UiAppButton type="submit">{{ isLogin ? 'Login' : 'Sign Up' }}</UiAppButton>
         <UiAppButton
           type="button"
@@ -22,7 +23,28 @@ export default {
   layout: 'admin',
   data() {
     return {
-      isLogin: true
+      isLogin: true,
+      name: '',
+      email: '',
+      passwd: '',
+    }
+  },
+
+  methods: {
+    async onSubmitData() {
+      try {
+        let result = await this.$axios.$post("http://localhost:8888/api/member/", {
+          memberID: this.email,
+          email: this.email,
+          name: this.name,
+          passwd: this.passwd,
+        });
+
+        console.log(result);
+      }
+      catch (e) {
+        console.error(e);
+      }
     }
   }
 }

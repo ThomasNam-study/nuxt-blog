@@ -31,19 +31,41 @@ export default {
   },
 
   methods: {
-    async onSubmitData() {
-      try {
-        let result = await this.$axios.$post("http://localhost:8888/api/member/", {
-          memberID: this.email,
-          email: this.email,
-          name: this.name,
-          passwd: this.passwd,
-        });
+    makeParam (id, passwd) {
+      return `grant_type=password&scope=read&username=${id}&password=${passwd}`;
+    },
 
-        console.log(result);
+    async onSubmitData() {
+
+      if (this.isLogin) {
+        try {
+          const headers = {
+            "content-type" : "application/x-www-form-urlencoded",
+            "Authorization" : "Basic " + btoa(`${process.env.clientID}:${process.env.clientPw}`)
+          };
+
+          const params = this.makeParam(this.email, this.passwd);
+
+          let result = await this.$axios.$post("http://localhost:10200/oauth/token", params, {headers : headers});
+
+          console.log(result);
+        } catch (e) {
+          console.error(e);
+        }
       }
-      catch (e) {
-        console.error(e);
+      else {
+        try {
+          let result = await this.$axios.$post("http://localhost:8888/api/member/", {
+            memberID: this.email,
+            email: this.email,
+            name: this.name,
+            passwd: this.passwd,
+          });
+
+          console.log(result);
+        } catch (e) {
+          console.error(e);
+        }
       }
     }
   }
